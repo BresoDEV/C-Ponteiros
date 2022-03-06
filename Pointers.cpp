@@ -10,6 +10,13 @@
 
 using namespace std;
 
+
+#pragma region GAME CONFIG
+LPCWSTR Jogo = TEXT("blablabla");		//Nome da janela do jogo
+LPCWSTR Jogo_exe = TEXT("blabla.exe");		//Nome do executavel do jogo .exe
+#pragma endregion
+
+
 #pragma region PONTEIROS DE MEMORIA
 /// <summary>
 /// Funcao usada para pegar o endereço de um jogo, para poder usar jogo.exe + ponteiro, como no Cheat Engine
@@ -17,6 +24,18 @@ using namespace std;
 /// <param name="ID do processo"></param>
 /// <param name="Nome"></param>
 /// <returns></returns>
+
+bool Check_JogoAberto()
+{
+	HWND hWnd = FindWindow(0, Jogo);
+	DWORD pId;
+	GetWindowThreadProcessId(hWnd, &pId);
+	HANDLE process = OpenProcess(SYNCHRONIZE, FALSE, pId);
+	DWORD ret = WaitForSingleObject(process, 0);
+	CloseHandle(process);
+	return ret == WAIT_TIMEOUT;
+}
+
 uintptr_t GetModuleBaseAddress(DWORD procId, const TCHAR* modName)
 {
 	uintptr_t modBaseAddr = 0;
