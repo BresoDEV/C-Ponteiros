@@ -8,6 +8,8 @@
 #include <stdio.h> 
 #include <tchar.h> 
 
+using namespace std;
+
 #pragma region PONTEIROS DE MEMORIA
 /// <summary>
 /// Funcao usada para pegar o endereço de um jogo, para poder usar jogo.exe + ponteiro, como no Cheat Engine
