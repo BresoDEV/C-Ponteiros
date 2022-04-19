@@ -459,6 +459,15 @@ bool SobrescreverMemoriaFloat(DWORD Offset, float valor)
 	return WriteProcessMemory(hProc, (void*)Offset, &valor, sizeof(valor), nullptr); //write
 }
 
+bool SobrescreverMemoriaString(DWORD Offset, string valor)
+{
+	DWORD pId;
+	HWND hWnd = FindWindow(0, Jogo);
+	GetWindowThreadProcessId(hWnd, &pId);
+	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pId);
+	return WriteProcessMemory(hProc, (void*)Offset, valor.c_str(), sizeof(valor), nullptr); //write
+}
+
 bool EscreverMemoria_enderecoFixo(DWORD Offset, int valor)
 {
 	HWND hWnd = FindWindow(0, Jogo);
@@ -480,6 +489,17 @@ bool EscreverMemoria_enderecoFixoFloat(DWORD Offset, float valor)
 	DWORD base = ac_client + Offset;
 	float aa = valor;
 	return WriteProcessMemory(hProc, (void*)base, &aa, sizeof(aa), nullptr);
+}
+
+bool EscreverMemoria_enderecoFixoString(DWORD Offset, string valor)
+{
+	HWND hWnd = FindWindow(0, Jogo);
+	DWORD pId;
+	GetWindowThreadProcessId(hWnd, &pId);
+	HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pId);
+	DWORD ac_client = GetModuleBaseAddress(pId, Jogo_exe);
+	DWORD base = ac_client + Offset; 
+	return WriteProcessMemory(hProc, (void*)base, valor.c_str(), sizeof(aa), nullptr);
 }
 
 #pragma endregion
